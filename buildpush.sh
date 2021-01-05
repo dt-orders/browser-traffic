@@ -2,7 +2,6 @@
 
 clear
 
-clear
 REPOSITORY=$1
 
 if [ -z "$REPOSITORY" ]

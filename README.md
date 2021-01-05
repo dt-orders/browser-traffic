@@ -13,6 +13,13 @@ docker run -it \
     dtdemos/dt-orders-selenium:1
 ```
 
+Use `run.sh` as a helper script to test the docker image.
+
+```
+# example override of URL to run for 20 loops
+./run.sh http://44.234.152.110 20
+```
+
 # Development
 
 ## Prerequisites - This is setup on a mac
@@ -40,12 +47,16 @@ rm chromedriver_mac64.zip
 chromedriver --version
 ```
 
-## Run
+## Develop and Test
 
-```
-# with no browser showing
-python app.py --url http://localhost --num_loops 1
+* Edit script and run it  
 
-# with browser showing
-python app.py --show --url http://localhost --num_loops 1
-```
+    ```
+    # with no browser showing
+    python app.py --url http://localhost --num_loops 1
+
+    # with browser showing
+    python app.py --show --url http://localhost --num_loops 1
+    ```
+    
+* Use `buildpush.sh` to build and push the Docker image

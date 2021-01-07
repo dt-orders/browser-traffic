@@ -1,6 +1,8 @@
 # Overview
 
-This is a simple script to send some browser traffic to the dt-orders app with a configurable loop count and base URL. 
+This is a simple script to send some browser traffic to the dt-orders app with a configurable loop count and base URL.  
+
+See the [overview repo](https://github.com/dt-orders/overview) for how to setup the application.
 
 # Running
 
@@ -16,8 +18,11 @@ docker run -it \
 Use `run.sh` as a helper script to test the docker image.
 
 ```
-# example override of URL to run for 20 loops
-./run.sh http://44.234.152.110 20
+# example override of URL to run for 10000 loops, in detached more
+./run.sh http://44.234.152.110 10000
+
+# example override of URL to run for 5 loops, in foreground DEBUG mode
+./run.sh http://44.234.152.110 5 true
 ```
 
 # Development

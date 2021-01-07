@@ -3,12 +3,51 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait as wait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium import webdriver
 import argparse
 import time 
 import sys
+import random
 
-def set_chrome_options(show_browser) -> None:
+def get_geolocation():
+  # https://stackoverflow.com/questions/31755633/fake-geolocation-in-chrome-automation
+  # https://developers.google.com/web/tools/chrome-devtools/device-mode/geolocation
+  location = random.randint(1,5)
+  if location == 1:
+    print("Setting Location to: Frankfurt")
+    latitude = 50.1109
+    longitude = 8.6821
+  elif location == 2:
+    print("Setting Location to: Berlin")
+    latitude = 52.520007
+    longitude = 13.404954
+  elif location == 3:
+    print("Setting Location to: London")
+    latitude = 51.507351
+    longitude = -0.127758
+  elif location == 4:
+    print("Setting Location to: San Fran")
+    latitude = 37.774929
+    longitude = -122.419416
+  else:
+    print("Setting Location to: Mumbai")
+    latitude = 19.075984
+    longitude = 72.877656
+
+  return {
+    "latitude": latitude,
+    "longitude": longitude,
+    "accuracy": 100
+  }
+    
+def get_desired_capabilities():
+
+  desired_capabilities = DesiredCapabilities.CHROME.copy()
+  desired_capabilities['chrome.page.customHeaders.host'] = 'test.local'
+  return desired_capabilities
+
+def get_chrome_options(show_browser) -> None:
     chrome_options = Options()
     if(show_browser==False):
       print("Hiding Browser")
@@ -18,9 +57,14 @@ def set_chrome_options(show_browser) -> None:
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("window-size=1200x600")
-    #chrome_prefs = {}
-    #chrome_options.experimental_options["prefs"] = chrome_prefs
-    #chrome_prefs["profile.default_content_settings"] = {"images": 2}
+    chrome_options.add_argument("user-agent=whatever you want")
+    chrome_options.add_argument("custom=rob jahn")
+    #chrome_options.add_argument('--deny-permission-prompts')
+    #chrome_options.add_argument("disable-geolocation")
+    
+    #prefs = {"profile.default_content_setting_values.geolocation" :2}
+    #chrome_options.add_experimental_option("prefs",prefs)
+
     return chrome_options
 
 def pause():
@@ -51,18 +95,31 @@ if __name__ == "__main__":
     print("show browser    : " + str(args.show))
     print("============================================")
 
-    chrome_options = set_chrome_options(args.show)
-    driver = webdriver.Chrome(options=chrome_options)
+    chrome_options = get_chrome_options(args.show)
+    desired_capabilities = get_desired_capabilities()
+    driver = webdriver.Chrome(options=chrome_options,desired_capabilities=desired_capabilities)  
+
     #driver.implicitly_wait(10)
 
     # Basic Flow
     for loop in range(0, num_loops): 
+      #location = get_geolocation()
+      #driver.execute_cdp_cmd("Page.setGeolocationOverride", location)
+      #driver.execute_cdp_cmd("Emulation.setGeolocationOverride", location)
+
+      #driver.get("https://maps.google.com")
+      #wait(driver, 10).until(EC.presence_of_element_located((By.ID, "widget-mylocation"))).click()
+      #pause()
 
       print("Loop " + str(loop + 1) + " of " + str(num_loops) + "    Running with base URL: " + url)
       print("..Opening Home Page")
       driver.get(url)
       assert "Dynatrace Order Processing" in driver.title
       #pause()
+      pause()
+      pause()
+      pause()
+      pause()
       #print(driver.page_source)
 
       print("..Customer Flow")
@@ -72,7 +129,7 @@ if __name__ == "__main__":
       pause()
       wait(driver, 10).until(EC.presence_of_element_located((By.LINK_TEXT, "Home"))).click()
       pause()
-
+      break
       """
       driver.find_element_by_link_text("Customer").click()
       pause()
@@ -142,4 +199,4 @@ if __name__ == "__main__":
       """
 
     # end of loop
-    driver.close()
+    #driver.close()

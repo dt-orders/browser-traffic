@@ -10,7 +10,7 @@ Assuming the dt-orders app is running, start docker with this command and adjust
 docker run -it \
     --env SCRIPT_NUM_LOOPS=1 \
     --env APP_URL=http://172.17.0.1 \
-    dtdemos/dt-orders-selenium:1
+    dtdemos/dt-orders-broswer:1
 ```
 
 Use `run.sh` as a helper script to test the docker image.

@@ -15,7 +15,7 @@ then
 fi
 
 REPOSITORY=dtdemos
-IMAGE=dt-orders-selenium
+IMAGE=dt-orders-browser
 VERSION_TAG=1
 FULLIMAGE=$REPOSITORY/$IMAGE:$VERSION_TAG
 

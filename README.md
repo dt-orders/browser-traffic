@@ -15,14 +15,14 @@ docker run -it \
     dtdemos/dt-orders-broswer:1
 ```
 
-Use `run.sh` as a helper script to test the docker image.
+Use `start-browser.sh` and `stop-browser.sh` as a helper script to test the docker image.
 
 ```
 # example override of URL to run for 10000 loops, in detached more
-./run.sh http://44.234.152.110 10000
+sudo ./start-browser.sh http://44.234.152.110 10000
 
 # example override of URL to run for 5 loops, in foreground DEBUG mode
-./run.sh http://44.234.152.110 5 true
+sudo ./start-browser.sh http://44.234.152.110 5 true
 ```
 
 # Development

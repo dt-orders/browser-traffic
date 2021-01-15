@@ -97,10 +97,10 @@ if __name__ == "__main__":
       driver.execute_cdp_cmd("Network.enable", {})
       driver.execute_cdp_cmd("Network.setExtraHTTPHeaders", {"headers": header})
 
+      username = get_random_username()
       userurl =  url + "?username=" + username
       print("Loop " + str(loop + 1) + " of " + str(num_loops) + "    Running with base URL: " + userurl)
       print("..Opening Home Page")
-      username = get_random_username()
       driver.get(userurl)
       assert "Dynatrace Order Processing" in driver.title
       pause("Home")

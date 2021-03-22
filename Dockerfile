@@ -11,6 +11,7 @@ ARG SCRIPT_NUM_LOOPS=1
 ENV SCRIPT_NUM_LOOPS=$SCRIPT_NUM_LOOPS
 
 COPY . /app
+COPY gen/MANIFEST /app
 WORKDIR /app
 
 RUN mkdir __logger
@@ -30,7 +31,6 @@ RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
 ENV DISPLAY=:99
 
 RUN pip install --upgrade pip
-
 RUN pip install -r requirements.txt
 
-CMD python ./app.py -u $APP_URL -n $SCRIPT_NUM_LOOPS
+CMD ["sh", "-c", "cat MANIFEST && ./wait-until-ready.sh http://${HOSTNAME}:${SERVER_PORT} && python ./app.py -u $APP_URL -n $SCRIPT_NUM_LOOPS"]

@@ -33,4 +33,4 @@ ENV DISPLAY=:99
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-CMD ["sh", "-c", "cat MANIFEST && ./wait-until-ready.sh http://${HOSTNAME}:${SERVER_PORT} && python ./app.py -u $APP_URL -n $SCRIPT_NUM_LOOPS"]
+CMD ["sh", "-c", "cat MANIFEST && ./wait-until-ready.sh ${APP_URL} && python -u ./app.py -u $APP_URL -n $SCRIPT_NUM_LOOPS"]

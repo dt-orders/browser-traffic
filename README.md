@@ -15,14 +15,26 @@ docker run -it \
     dtdemos/dt-orders-broswer:1
 ```
 
+Logging level defaults to INFO, but can be changed with addition variable.
+
+Valid values are: DEBUG, INFO, WARNING, ERROR, CRITICAL
+
+```
+docker run -it \
+    --env SCRIPT_NUM_LOOPS=1 \
+    --env APP_URL=http://172.17.0.1 \
+    --env LOGGING_LEVEL=DEBUG \
+    dtdemos/dt-orders-broswer:1
+```
+
 Use `start-browser.sh` and `stop-browser.sh` as a helper script to test the docker image.
 
 ```
 # example override of URL to run for 10000 loops, in detached more
 sudo ./start-browser.sh http://44.234.152.110 10000
 
-# example override of URL to run for 5 loops, in foreground DEBUG mode
-sudo ./start-browser.sh http://44.234.152.110 5 true
+# example override of URL to run for 1 loops, in foreground LOGGING_LEVEL=DEBUG mode
+sudo ./start-browser.sh http://44.234.152.110 1 DEBUG
 ```
 
 # Development
@@ -46,7 +58,7 @@ pip install -r requirements.txt
 See versions [here](http://chromedriver.storage.googleapis.com/)
 
 ```
-curl chromedriver.storage.googleapis.com/87.0.4280.88/chromedriver_mac64.zip -o chromedriver_mac64.zip
+curl chromedriver.storage.googleapis.com/89.0.4389.23/chromedriver_mac64.zip -o chromedriver_mac64.zip
 unzip chromedriver_mac64.zip chromedriver -d /usr/local/bin/
 rm chromedriver_mac64.zip
 chromedriver --version
@@ -60,8 +72,11 @@ chromedriver --version
     # with no browser showing
     python app.py --url http://localhost --num_loops 1
 
+    # with no browser showing and logging set to DEBUG level
+    python app.py --url http://localhost --num_loops 1 -l DEBUG
+
     # with browser showing
-    python app.py --show --url http://localhost --num_loops 1
+    python app.py --showbrowser --url http://localhost --num_loops 1
     ```
     
 * Use `buildpush.sh` to build and push the Docker image

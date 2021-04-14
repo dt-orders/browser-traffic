@@ -12,10 +12,10 @@ then
     SCRIPT_NUM_LOOPS=10
 fi
 
-TEST_DEBUG=$3
-if [ -z "$TEST_DEBUG" ]
+LOGGING_LEVEL=$3
+if [ -z "$LOGGING_LEVEL" ]
 then
-    TEST_DEBUG=false
+    LOGGING_LEVEL=INFO
 fi
 
 REPOSITORY=dtdemos
@@ -28,24 +28,14 @@ echo "========================================================"
 echo "Running $FULLIMAGE"
 echo "APP_URL          : $APP_URL"
 echo "SCRIPT_NUM_LOOPS : $SCRIPT_NUM_LOOPS"
-echo "TEST_DEBUG       : $TEST_DEBUG"
+echo "LOGGING_LEVEL    : $LOGGING_LEVEL"
 echo "========================================================"
 echo ""
 
-if [ "$TEST_DEBUG" == "true" ]
-then
-    echo "Running docker foreground mode"
-    docker run -it \
-        --env APP_URL=$APP_URL \
-        --env SCRIPT_NUM_LOOPS=$SCRIPT_NUM_LOOPS \
-        --label dt-orders-browser \
-        $FULLIMAGE
-else
-    echo "Running docker detached mode.  Run 'sudo docker ps' to monitor"
-    docker run -it \
-        -d \
-        --env APP_URL=$APP_URL \
-        --env SCRIPT_NUM_LOOPS=$SCRIPT_NUM_LOOPS \
-        --label dt-orders-browser \
-        $FULLIMAGE
-fi
+echo "Running docker foreground mode"
+docker run -it \
+    --env APP_URL=$APP_URL \
+    --env SCRIPT_NUM_LOOPS=$SCRIPT_NUM_LOOPS \
+    --env LOGGING_LEVEL=$LOGGING_LEVEL \
+    --label dt-orders-browser \
+    $FULLIMAGE
